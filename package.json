@@ -7,6 +7,9 @@
     "build": " webpack --config webpack.prod.js",
     "dev": " webpack -w --config webpack.dev.js"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/kato/kato-ui.git"
