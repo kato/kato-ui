@@ -1,8 +1,7 @@
 import ecstatic from 'ecstatic';
-import path from 'path';
 
 const file = ecstatic({
-  root: path.join(__dirname, '..', 'ui'),
+  root: __dirname.substring(0, __dirname.lastIndexOf('middleware')) + 'ui',
   baseDir: '/ui/',
   autoIndex: true
 });
