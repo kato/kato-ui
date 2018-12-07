@@ -4,8 +4,8 @@
   "description": "kato debug ui",
   "main": "./dist/middleware/index.js",
   "scripts": {
-    "build": " webpack --config webpack.prod.js",
-    "dev": " webpack -w --config webpack.dev.js"
+    "build": " webpack --hide-modules --config webpack.prod.js",
+    "dev": " webpack -w --hide-modules --config webpack.dev.js"
   },
   "files": [
     "dist"
@@ -32,12 +32,15 @@
     "babel-loader": "^8.0.4",
     "clean-webpack-plugin": "^1.0.0",
     "css-loader": "^1.0.1",
+    "element-ui": "^2.4.11",
+    "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
     "kato-client": "0.0.2",
     "kato-server": "^1.0.0",
     "node-sass": "^4.10.0",
     "nodemon-webpack-plugin": "^4.0.6",
     "sass-loader": "^7.1.0",
+    "url-loader": "^1.1.2",
     "vue": "^2.5.17",
     "vue-loader": "^15.4.2",
     "vue-router": "^3.0.2",
