@@ -11,5 +11,4 @@ export async function KatoUI({req, res}, next) {
     file(req, res);
   } else
     await next();
-
 }
