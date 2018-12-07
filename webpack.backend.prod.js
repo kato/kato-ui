@@ -1,5 +1,5 @@
 const merge = require('webpack-merge');
-const base = require('./webpack.front.base');
+const base = require('./webpack.backend.base');
 const webpack = require('webpack');
 
 module.exports = merge(base, {
