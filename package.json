@@ -36,7 +36,6 @@
     "kato-client": "0.0.2",
     "kato-server": "^1.0.0",
     "nodemon-webpack-plugin": "^4.0.6",
-    "start-server-webpack-plugin": "^2.2.5",
     "vue": "^2.5.17",
     "vue-loader": "^15.4.2",
     "vue-router": "^3.0.2",
