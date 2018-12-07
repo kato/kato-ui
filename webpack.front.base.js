@@ -7,51 +7,51 @@ const webpack = require('webpack');
 const dist = path.join(__dirname, 'dist', 'ui');
 
 module.exports = {
-    entry: {
-        main: './ui/main.js'
-    },
-    output: {
-        path: dist
-    },
-    module: {
-        rules: [
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader'
-            },
-            {
-                test: /\.js$/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [['@babel/preset-env', {
-                            targets: {
-                                chrome: 56
-                            }
-                        }]]
-                    }
-                }
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    'vue-style-loader',
-                    'css-loader'
-                ]
-            }
+  entry: {
+    main: './ui/main.js'
+  },
+  output: {
+    path: dist
+  },
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [['@babel/preset-env', {
+              targets: {
+                chrome: 56
+              }
+            }]]
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
         ]
-    },
-    resolve: {
-        extensions: ['.vue', '.js']
-    },
-
-    plugins: [
-        new CleanWebpackPlugin(dist),
-        new VueLoaderPlugin(),
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: './ui/index.html',
-            chunks: ['main']
-        })
+      }
     ]
+  },
+  resolve: {
+    extensions: ['.vue', '.js']
+  },
+
+  plugins: [
+    new CleanWebpackPlugin(dist),
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './ui/index.html',
+      chunks: ['main']
+    })
+  ]
 };
