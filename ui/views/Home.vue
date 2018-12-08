@@ -22,27 +22,41 @@
           </el-tabs>
           <div style="height: calc(100vh - 170px);">
             <vue-scroll :ops="{bar:{background:'#ff6c37',opacity:0.75,showDelay:700}}">
-              <list :filter="filter" @selected="handleSelected" v-show="activeName==='list'"></list>
-              <div v-show="activeName==='history'" style="background-color: black;height: 500px">history</div>
+              <list v-show="activeName==='list'" :filter="filter" @selected="handleSelected"></list>
+              <history v-show="activeName==='history'"></history>
             </vue-scroll>
           </div>
         </div>
       </el-aside>
       <el-main class="main">
-        <vue-scroll :ops="{
-          bar:{
-            background:'#ff6c37',
-            opacity:0.75,
-            showDelay:700
-          },
-          scrollPanel: {
-            scrollingX: false,
-          }
-        }">
-          <div style="background-color: black;height: 500px">
-            <div style="width: 1000px"></div>
+        <div v-if="tabs.length===0" style="margin-top: 200px;display: flex;justify-content: center">
+          <div class="error-info">
+            <i style="font-size: 40px" class="el-icon-warning"></i>
+            <p>
+              <small>点击左侧列表项发起请求</small>
+            </p>
           </div>
-        </vue-scroll>
+        </div>
+        <el-tabs
+          v-if="tabs.length>0"
+          type="card"
+          v-model="activeTab"
+          @tab-remove="handleRemove"
+          :closable="true">
+          <el-tab-pane v-for="tab of tabs"
+                       :key="`${tab.type}-${tab.module.name}.${tab.method.name}`"
+                       :name="`${tab.type}-${tab.module.name}.${tab.method.name}`">
+            <span v-if="tab.type==='method'" slot="label">
+              <i class="el-icon-tickets"></i>
+              {{tab.module.name}}.{{tab.method.name}}
+            </span>
+            <span v-if="tab.type==='history'" slot="label">
+              <i class="el-icon-time"></i>
+              {{tab.module.name}}.{{tab.method.name}}
+            </span>
+            <invoker :stub="tab"></invoker>
+          </el-tab-pane>
+        </el-tabs>
       </el-main>
     </el-container>
     <el-footer class="footer" height="30px">
@@ -53,25 +67,74 @@
 
 <script>
   import list from '../components/list'
+  import history from "../components/history";
+  import invoker from '../components/invoker'
 
   export default {
     name: "Home",
     components: {
-      list
+      history,
+      list,
+      invoker
     },
     data() {
       return {
         activeName: 'list',
-        filter: ''
+        filter: '',
+        activeTab: '',
+        tabs: []
       }
     },
     methods: {
-      handleSelected() {
-        console.log(arguments)
+      handleSelected(moduleAndMethodName) {
+        if (this.tabs.filter(it => {
+          return it.type === 'method' && `${it.module.name}.${it.method.name}` === moduleAndMethodName
+        }).length <= 0) {
+          const [moduleName, methodName] = moduleAndMethodName.split('.');
+          const module = this.$api.stub.modules.filter(it => it.name === moduleName)[0];
+          if (module) {
+            const method = module.methods.filter(it => it.name === methodName)[0];
+            if (method) {
+              this.tabs.push({
+                type: 'method',
+                module,
+                method,
+                baseUrl: this.$api.baseUrl
+              })
+            }
+          }
+        }
+
+        this.activeTab = `method-${moduleAndMethodName}`
+      },
+      handleRemove(tabName) {
+        const tabs = this.tabs;
+        if (this.activeTab === tabName) {
+          tabs.forEach((tab, index) => {
+            if (`${tab.type}-${tab.module.name}.${tab.method.name}` === tabName) {
+              let nextTab = tabs[index + 1] || tabs[index - 1];
+              if (nextTab)
+                this.activeTab = `${nextTab.type}-${nextTab.module.name}.${nextTab.method.name}`;
+            }
+          });
+        }
+
+        this.tabs = tabs.filter(tab => `${tab.type}-${tab.module.name}.${tab.method.name}` !== tabName);
       }
     }
   }
 </script>
+
+<style>
+  .main .el-tabs__nav-scroll {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .main .el-tabs__header {
+    margin: 0
+  }
+</style>
 
 <style scoped lang="scss">
   @import "../vars";
@@ -110,7 +173,12 @@
   }
 
   .main {
-    padding: 0;
+    padding: 5px 0 0;
+  }
+
+  .error-info {
+    text-align: center;
+    color: $color-primary;
   }
 
   .footer {
