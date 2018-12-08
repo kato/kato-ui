@@ -79,6 +79,7 @@
   .header {
     width: 100%;
     box-shadow: 0 1px 5px 0 rgba(48, 48, 48, 0.3);
+    background-color: #fafafa;
   }
 
   .header-wrapper {

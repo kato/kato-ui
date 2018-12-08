@@ -125,14 +125,24 @@
   }
 </script>
 
-<style>
-  .main .el-tabs__nav-scroll {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
+<style lang="scss">
+  .main {
+    .el-tabs__nav-scroll {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
 
-  .main .el-tabs__header {
-    margin: 0
+    .el-tabs__item {
+      border-bottom: none !important;
+    }
+
+    .is-active {
+      background-color: #fafafa;
+    }
+
+    .el-tabs__header {
+      margin: 0
+    }
   }
 </style>
 
