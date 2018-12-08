@@ -1,15 +1,9 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const path = require('path');
-const dist = path.join(__dirname, 'dist', 'ui');
 
 module.exports = {
   entry: {
     main: './ui/main.js'
-  },
-  output: {
-    path: dist
   },
   module: {
     rules: [
@@ -77,7 +71,6 @@ module.exports = {
   },
 
   plugins: [
-    new CleanWebpackPlugin(dist),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
