@@ -21,12 +21,29 @@
             <el-tab-pane name="history"><span slot="label"><i class="el-icon-time"></i> 请求历史</span></el-tab-pane>
           </el-tabs>
           <div style="height: calc(100vh - 170px);">
-            <list :filter="filter" @selected="handleSelected" v-show="activeName==='list'"></list>
-            <div v-show="activeName==='history'">history</div>
+            <vue-scroll :ops="{bar:{background:'#ff6c37',opacity:0.75,showDelay:700}}">
+              <list :filter="filter" @selected="handleSelected" v-show="activeName==='list'"></list>
+              <div v-show="activeName==='history'" style="background-color: black;height: 500px">history</div>
+            </vue-scroll>
           </div>
         </div>
       </el-aside>
-      <el-main class="main">Main</el-main>
+      <el-main class="main">
+        <vue-scroll :ops="{
+          bar:{
+            background:'#ff6c37',
+            opacity:0.75,
+            showDelay:700
+          },
+          scrollPanel: {
+            scrollingX: false,
+          }
+        }">
+          <div style="background-color: black;height: 500px">
+            <div style="width: 1000px"></div>
+          </div>
+        </vue-scroll>
+      </el-main>
     </el-container>
     <el-footer class="footer" height="30px">
       <i class="el-icon-success"> 准备就绪</i>
@@ -77,6 +94,7 @@
 
   .aside {
     width: 300px;
+    overflow: hidden;
     box-shadow: 1px 0 5px 0 rgba(48, 48, 48, 0.5);
   }
 
@@ -89,6 +107,10 @@
     border-bottom-width: 1px;
     border-bottom-style: inset;
     border-bottom-color: #c3c3c3;
+  }
+
+  .main {
+    padding: 0;
   }
 
   .footer {

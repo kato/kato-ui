@@ -1,32 +1,45 @@
 <template>
-  <el-menu
-    ref="menu"
-    :collapse-transition="false"
-    :default-openeds="isOpened"
-    text-color="#000"
-    active-text-color="#000"
-    @open="handleOpen"
-    @close="handleClose"
-    @select="handleSelect"
-  >
-    <el-submenu v-for="module of filteredModules"
-                :key="module.name"
-                :index="module.name">
-      <template slot="title">
-        <i class="el-icon-menu"></i>
-        <span><strong>{{module.name}}</strong> 模块</span>
-      </template>
-
-      <el-menu-item v-for="method of module.methods"
-                    :key="`${module.name}.${method.name}`"
-                    :index="`${module.name}.${method.name}`">
+  <div>
+    <el-menu
+      v-show="filteredModules.length>0"
+      ref="menu"
+      :collapse-transition="false"
+      :default-openeds="isOpened"
+      text-color="#000"
+      active-text-color="#000"
+      @open="handleOpen"
+      @close="handleClose"
+      @select="handleSelect"
+    >
+      <el-submenu v-for="module of filteredModules"
+                  :key="module.name"
+                  :index="module.name">
         <template slot="title">
-          <i class="el-icon-tickets"></i>
-          <span>{{method.name}}</span>
+          <i class="el-icon-menu"></i>
+          <span><strong>{{module.name}}</strong></span>
         </template>
-      </el-menu-item>
-    </el-submenu>
-  </el-menu>
+
+        <el-menu-item v-for="method of module.methods"
+                      :key="`${module.name}.${method.name}`"
+                      :index="`${module.name}.${method.name}`">
+          <template slot="title">
+            <i class="el-icon-tickets"></i>
+            <span><strong>{{method.name}}</strong></span>
+          </template>
+        </el-menu-item>
+      </el-submenu>
+    </el-menu>
+    <div
+      style="margin-top: 200px;display: flex;justify-content: center"
+      v-show="filteredModules.length===0">
+      <div class="error-info">
+        <i style="font-size: 40px" class="el-icon-warning"></i>
+        <p>
+          <small>找不到任何方法</small>
+        </p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -79,6 +92,11 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  @import "../vars";
 
+  .error-info {
+    text-align: center;
+    color: $color-primary;
+  }
 </style>

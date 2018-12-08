@@ -3,9 +3,12 @@ import ElementUI from 'element-ui'
 import App from './App.vue'
 import router from './router'
 import {getAPIClient} from "./plugins/kato-client";
+import VueScroll from 'vuescroll/dist/vuescroll-native';
 
 //导入主样式
 import './main.scss'
+//导入滚动条样式
+import 'vuescroll/dist/vuescroll.css';
 
 Vue.config.productionTip = false;
 
@@ -16,6 +19,8 @@ Vue.config.productionTip = false;
 
   //引入element-ui
   Vue.use(ElementUI);
+  //引入滚动条库
+  Vue.use(VueScroll);
 
   //初始化Kato API插件
   new Vue({
