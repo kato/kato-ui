@@ -6,3 +6,13 @@ cache: npm
 script:
   - set -e
   - npm run build
+  -
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: demon@danwi.me
+  api_key:
+    secure: QHcP+Pj+8wtWW0nTHPPPqAVdMVUg7c0w+4Yvtco/vhKGoPthYVjE8yPGFSHSlhWLYBkTMg1c527UVCJUk9/BOVBBb7HGx0QYTnH024cWJ5WpTxVwlBDXfTpVevtjl0l6OzPdgazdsxU8MgfS7qUOdmSiVYW0Fowmi0wj5NPY+wXIcrh+1ILrW+75LMBWJO0PiwVccjwmlC3abKbk3/w6gXnsVaGhzLqas+h0DYMtntsMozrNvgaC28LfaHLzPKx5dY5b4hWELRyNdBto+Sp9iaOb4vlv8KvpC5kXTH9up5f9TcPjwGFbaIrcTeTKgUsqrI9cHiks27+rNVIsOiFgg/62jKiAtX9KIXu5TDpBWAyxyETl/NgXIN5tgfz6tP6zkMbVxTjFRZjmxlfs1S36nmIhxkDAIgwq0NWl8MG7RuXaIM9cOkXbCRhTt2KDgpH2iXGnIkbtFIyX1+JBth4Z9WZOJJuXZn70gIahUhuCAf+FTb/9O2BQgnxAfqNmEX1xqkyobMeA5SuRjc1oriz70zbBpVT63ktpOdQfJgBVVdHCbVzXnFvt+BPcWu229VL/oF6YR9rrDkrgt33AdqMc/s2ILGQz5rSfc09y8a1CcV046+82bxnvpBqiGWmGpZMsVknERptYjIIl62pzj0/kTJZK4rB3jn+ySAHEnF+4hoc=
+  on:
+    tags: true
+    repo: kato/kato-ui
