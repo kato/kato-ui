@@ -126,6 +126,11 @@
 </script>
 
 <style lang="scss">
+  .aside {
+    .el-tabs__nav-scroll {
+      background-color: #fafafa;
+    }
+  }
   .main {
     .el-tabs__nav-scroll {
       margin-left: 10px;
@@ -183,7 +188,7 @@
   }
 
   .main {
-    padding: 5px 0 0;
+    padding: 9px 0 0;
   }
 
   .error-info {
