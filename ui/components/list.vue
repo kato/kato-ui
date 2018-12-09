@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="list">
     <el-menu
       v-show="filteredModules.length>0"
       ref="menu"
@@ -16,7 +16,7 @@
                   :index="module.name">
         <template slot="title">
           <i class="el-icon-menu"></i>
-          <span><strong>{{module.name}}</strong></span>
+          <span>{{module.name}}</span>
         </template>
 
         <el-menu-item v-for="method of module.methods"
@@ -24,7 +24,7 @@
                       :index="`${module.name}.${method.name}`">
           <template slot="title">
             <i class="el-icon-tickets"></i>
-            <span><strong>{{method.name}}</strong></span>
+            <span>{{method.name}}</span>
           </template>
         </el-menu-item>
       </el-submenu>
@@ -91,6 +91,22 @@
     }
   }
 </script>
+
+<style lang="scss">
+  $menu-height: 38px;
+
+  .list {
+    .el-submenu__title {
+      height: $menu-height;
+      line-height: $menu-height;
+    }
+
+    .el-submenu .el-menu-item {
+      height: $menu-height;
+      line-height: $menu-height;
+    }
+  }
+</style>
 
 <style scoped lang="scss">
   @import "../vars";
