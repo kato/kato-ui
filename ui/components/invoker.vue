@@ -37,8 +37,38 @@
                 scrollingX: false,
               }
             }">
-        <params></params>
-        <result></result>
+        <div>
+          <div style="padding: 15px 15px 0 15px">
+            <el-card class="param-card">
+              <div slot="header">
+                <span><i class="el-icon-news"> 参数列表</i></span>
+              </div>
+              <params v-model="parameters"></params>
+            </el-card>
+          </div>
+
+          <div style="padding: 15px 15px 0 15px">
+            <el-card>
+              <div slot="header">
+                <span><i class="el-icon-message"> 调用结果</i></span>
+                <el-tag
+                  size="mini"
+                  style="float: right"
+                  type="success"
+                  v-if="updateTime">
+                  请求时间: {{updateTime.toLocaleString()}}
+                </el-tag>
+                <el-tag
+                  size="mini"
+                  style="float: right;margin-right: 10px"
+                  v-if="cost">
+                  耗时: {{cost}}ms
+                </el-tag>
+              </div>
+              <result :result="result"></result>
+            </el-card>
+          </div>
+        </div>
       </vue-scroll>
     </div>
 
@@ -48,6 +78,7 @@
 <script>
   import params from './params'
   import result from './result'
+  import {jsonParse} from '../common/json'
 
   export default {
     name: "invoker",
@@ -61,19 +92,51 @@
       const baseUrl = `${location.protocol}//${location.host}${this.stub.baseUrl}`;
       return {
         isLoading: false,
-        baseUrl
+        baseUrl,
+        parameters: this.stub.method.parameters.map(it => ({
+          isSelected: true,
+          name: it.name,
+          value: null
+        })),
+        result: undefined,
+        updateTime: null,
+        cost: null
       }
     },
     methods: {
-      handleClick() {
-        this.isLoading = true;
-        setTimeout(() => {
+      async handleClick() {
+        const start = new Date();
+        try {
+
+          this.isLoading = true;
+          //取得所有的参数
+          const args = this.stub.method.parameters.map(it => {
+            const index = this.parameters.filter(it => it.isSelected).findIndex(p => p.name === it.name);
+            if (index !== -1) {
+              return jsonParse(this.parameters[index].value)
+            }
+          });
+
+          this.result = await this.$api[this.stub.module.name][this.stub.method.name].apply(null, args);
+        } catch (e) {
+          this.result = e;
+        } finally {
           this.isLoading = false;
-        }, 5000)
+          this.updateTime = new Date();
+          this.cost = this.updateTime.getTime() - start.getTime();
+        }
       }
     }
   }
 </script>
+
+<style lang="scss">
+  .param-card {
+    .el-card__body {
+      padding: 0;
+    }
+  }
+</style>
 
 <style scoped>
   .header {
@@ -94,6 +157,6 @@
 
   .body {
     width: 100%;
-    height: calc(100vh - 186px);
+    height: calc(100vh - 190px);
   }
 </style>
