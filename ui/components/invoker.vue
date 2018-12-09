@@ -48,7 +48,7 @@
           </div>
 
           <div style="padding: 15px 15px 0 15px">
-            <el-card>
+            <el-card v-loading="isLoading">
               <div slot="header">
                 <span><i class="el-icon-message"> 调用结果</i></span>
                 <el-tag
