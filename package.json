@@ -1,6 +1,6 @@
 {
   "name": "kato-ui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "kato debug ui",
   "main": "./dist/middleware/index.js",
   "scripts": {
