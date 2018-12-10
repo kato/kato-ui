@@ -3,6 +3,7 @@ import ElementUI from 'element-ui'
 import App from './App.vue'
 import router from './router'
 import {getAPIClient} from "./plugins/kato-client";
+import {getDatabase} from './plugins/database'
 import VueScroll from 'vuescroll/dist/vuescroll-native';
 
 //导入主样式
@@ -16,6 +17,8 @@ Vue.config.productionTip = false;
   //引入kato-client,api的baseurl在ui的上一层
   const apiUrl = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/ui')) + '/';
   Vue.use(await getAPIClient(apiUrl));
+  //引入数据库插件
+  Vue.use(await getDatabase());
 
   //引入element-ui
   Vue.use(ElementUI);

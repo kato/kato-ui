@@ -2,6 +2,45 @@
   <el-container class="wrapper">
     <el-header class="header" height="50px">
       <h1 class="title">KatoUI</h1>
+      <el-button @click="loadHeader"
+                 type="primary"
+                 size="small"
+                 icon="el-icon-setting"
+                 circle></el-button>
+      <el-dialog
+        width="500px"
+        :visible="showHeadersSettings"
+        :lock-scroll="false"
+        :show-close="false">
+        <div style="text-align: center" slot="title">
+          预置Headers设置
+        </div>
+        <table>
+          <tr>
+            <th style="width: 30px;"></th>
+            <th>名称</th>
+            <th>值</th>
+          </tr>
+          <tr v-for="header of headers"
+              style="height: 40px">
+            <td style="text-align: center;">
+              <i @click="()=>removeHeader(header.index)"
+                 style="font-size: 20px;cursor:pointer;color: #ff6c37;"
+                 class="el-icon-remove"></i>
+            </td>
+            <td>
+              <el-input size="small" v-model="header.key"></el-input>
+            </td>
+            <td>
+              <el-input size="small" v-model="header.value"></el-input>
+            </td>
+          </tr>
+        </table>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="addHeader" type="primary">添加值</el-button>
+          <el-button @click="saveHeaders" type="primary">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-header>
     <el-container class="body">
       <el-aside width="300px" class="aside">
@@ -82,7 +121,9 @@
         activeName: 'list',
         filter: '',
         activeTab: '',
-        tabs: []
+        tabs: [],
+        showHeadersSettings: false,
+        headers: []
       }
     },
     methods: {
@@ -120,6 +161,30 @@
         }
 
         this.tabs = tabs.filter(tab => `${tab.type}-${tab.module.name}.${tab.method.name}` !== tabName);
+      },
+      async loadHeader() {
+        this.headers = (await this.$db.get('headers').value()).map((it, index) => ({index, ...it}));
+        this.showHeadersSettings = true;
+      },
+      addHeader() {
+        const max = Math.max(...this.headers.map(it => it.index)) || 0;
+        this.headers.push({index: max + 1});
+        console.log(0);
+      },
+      removeHeader(index) {
+        const position = this.headers.findIndex(it => it.index === index);
+        if (position !== -1)
+          this.headers.splice(position, 1)
+      },
+      async saveHeaders() {
+        let headers = this.headers
+          .filter(it => it.key && it.value)
+          .map(it => ({key: it.key.trim(), value: it.value.trim()}))
+          .filter(it => it.key && it.value);
+        //去重
+        headers = headers.filter((it, index) => headers.findIndex(it2 => it2.key === it.key) === index);
+        await this.$db.set('headers', headers).write();
+        this.showHeadersSettings = false;
       }
     }
   }
@@ -131,6 +196,7 @@
       background-color: #fafafa;
     }
   }
+
   .main {
     .el-tabs__nav-scroll {
       margin-left: 10px;
@@ -164,6 +230,30 @@
     background-color: #303030;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  td, th {
+    word-wrap: break-word;
+    font-size: 1em;
+    border: 1px solid #ebeef5;
+    padding: 3px 7px 2px 7px;
+  }
+
+  th {
+    font-size: 13px;
+    word-wrap: break-word;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 4px;
+    background-color: #c8c8c8;
+    color: #ffffff;
   }
 
   .body {

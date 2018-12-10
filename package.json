@@ -39,6 +39,7 @@
     "kato-client": "0.0.2",
     "kato-server": "^1.0.0",
     "loose-json": "^1.1.2",
+    "lowdb": "^1.0.0",
     "node-sass": "^4.10.0",
     "nodemon-webpack-plugin": "^4.0.6",
     "sass-loader": "^7.1.0",
