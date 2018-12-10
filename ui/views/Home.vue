@@ -169,7 +169,6 @@
       addHeader() {
         const max = Math.max(...this.headers.map(it => it.index)) || 0;
         this.headers.push({index: max + 1});
-        console.log(0);
       },
       removeHeader(index) {
         const position = this.headers.findIndex(it => it.index === index);
