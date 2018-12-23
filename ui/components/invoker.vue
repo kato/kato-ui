@@ -111,7 +111,7 @@
           this.isLoading = true;
           //取得所有的参数
           const args = this.stub.method.parameters.map(it => {
-            const index = this.parameters.filter(it => it.isSelected).findIndex(p => p.name === it.name);
+            const index = this.parameters.findIndex(p => p.name === it.name && p.isSelected);
             if (index !== -1) {
               return jsonParse(this.parameters[index].value)
             }
