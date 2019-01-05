@@ -25,11 +25,17 @@ if (_DEV_) {
   })
 }
 
-export async function KatoUI({req, res}, next) {
+export async function KatoUI(ctx, next) {
+  const {req, res} = ctx;
   if (req.url.startsWith('/ui/')) {
+    //禁止respond中间件的处理,其实KatoUI肯定在respond中间件前
+    ctx.bypassing = true;
     //裁剪url
     req.url = req.url.substr('/ui'.length, req.url.length);
     fileServer(req, res);
+    await new Promise(resolve => {
+      res.on('finish', () => resolve())
+    });
   } else
     await next();
 }
