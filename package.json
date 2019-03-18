@@ -58,6 +58,7 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
-    "ecstatic": "^3.3.0"
+    "ecstatic": "^3.3.0",
+    "upath": "^1.1.2"
   }
 }

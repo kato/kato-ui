@@ -1,4 +1,5 @@
 import ecstatic from 'ecstatic';
+import upath from 'upath';
 
 let fileServer;
 
@@ -20,7 +21,7 @@ if (_DEV_) {
   }
 } else {
   fileServer = ecstatic({
-    root: __dirname.substring(0, __dirname.lastIndexOf('middleware')) + 'ui',
+    root: upath.join(__dirname, '../ui'),
     autoIndex: true
   })
 }
