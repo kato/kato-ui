@@ -1,7 +1,7 @@
 const merge = require('webpack-merge');
 const base = require('./webpack.front.base');
 const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const path = require('path');
 const dist = path.join(__dirname, 'dist', 'ui');
 
@@ -11,7 +11,7 @@ module.exports = merge(base, {
     path: dist
   },
   plugins: [
-    new CleanWebpackPlugin(dist),
+    new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       _DEV_: false
     })
